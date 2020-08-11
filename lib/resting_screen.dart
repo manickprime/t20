@@ -1,6 +1,6 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:t20/button.dart';
 import 'package:t20/clock/first_screen.dart';
 
 class TimerPage extends StatefulWidget {
@@ -27,8 +27,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
       length: 2,
       vsync: this,
     );
-    min = 19;
-    sec = 59;
+    sec = 20;
     super.initState();
   }
 
@@ -232,8 +231,10 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
         centerTitle: true,
         backgroundColor: Color(0xffff0764),
       ),
+//      body: CircleButton(),
       body: Column(children: [
         timer(),
+//        SingleChildScrollView(child: FirstTab(),scrollDirection: ,),
         Expanded(
           child: FirstTab(),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:t20/clock/first_screen.dart';
 import 'package:t20/timer.dart';
 
 void main() {
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+//      home: Scaffold(body: FirstTab()),
       home: TimerPage(),
     );
   }
