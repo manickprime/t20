@@ -27,7 +27,7 @@ class SecondHandPainter extends CustomPainter {
 
     canvas.translate(radius, radius);
 
-    canvas.rotate(2 * pi * this.seconds / 60);
+    canvas.rotate(-(2 * pi * this.seconds / 60));
 
     Path path1 = Path();
     Path path2 = Path();

@@ -3,10 +3,12 @@ import 'package:flutter/painting.dart';
 import 'package:t20/clock/clock_text.dart';
 
 class ClockFace extends StatelessWidget {
-  final DateTime dateTime;
+//  final DateTime dateTime;
   final ClockText clockText;
-  ClockFace({this.clockText = ClockText.arabic, this.dateTime});
-
+  final int min;
+  final int sec;
+//  ClockFace({this.clockText = ClockText.arabic, this.dateTime});
+  ClockFace({this.min,this.sec,this.clockText = ClockText.arabic});
   @override
   Widget build(BuildContext context) {
     return Center(

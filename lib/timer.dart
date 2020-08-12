@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:t20/button.dart';
 import 'package:t20/clock/first_screen.dart';
+import 'package:t20/notification.dart';
+import 'package:t20/resting_screen.dart';
 
 class TimerPage extends StatefulWidget {
   @override
@@ -20,6 +22,9 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   String buttonText = 'Start';
   bool checkTimer = true;
   int times = 0;
+  int passedMin = 0;
+  int passedSec = 0;
+  DateTime dateTime;
 
   @override
   void initState() {
@@ -27,8 +32,8 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
       length: 2,
       vsync: this,
     );
-    min = 19;
-    sec = 59;
+    min = 0;
+    sec = 5;
     super.initState();
   }
 
@@ -47,18 +52,24 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
           }
           started = true;
           stopped = true;
+//          MyHomePage myHomePage = MyHomePage();
+//          myHomePage.
           Navigator.pushReplacement(
               context,
-              MaterialPageRoute(
-                builder: (context) => TimerPage(),
-              ));
+              PageRouteBuilder(
+                  pageBuilder: (context, __, ___) => RestPage(),
+                  transitionDuration: Duration(seconds: 0)));
         } else if (timeForTimer < 60) {
           timeToDisplay = timeForTimer.toString();
+          passedMin = 0;
+          passedSec = timeForTimer;
           timeForTimer -= 1;
         } else if (timeForTimer < 3600) {
           int m = timeForTimer ~/ 60;
           int s = timeForTimer - (60 * m);
           timeToDisplay = m.toString() + ':' + s.toString();
+          passedMin = m;
+          passedSec = s;
           timeForTimer -= 1;
         } else {
           int h = timeForTimer ~/ 3600;
@@ -235,7 +246,10 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
       body: Column(children: [
         timer(),
         Expanded(
-          child: FirstTab(),
+          child: FirstTab(
+            minutes: passedMin,
+            seconds: passedSec,
+          ),
         ),
       ]),
     );

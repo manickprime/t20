@@ -15,19 +15,26 @@ class Clock extends StatefulWidget {
 
   final ClockText clockText;
 
-  final TimeProducer getCurrentTime;
-  final Duration updateDuration;
+//  final TimeProducer getCurrentTime;
+//  final Duration updateDuration;
+
+//  final DateTime dateTime;
+  final int min;
+  final int sec;
 
   Clock(
       {this.circleColor = const Color(0xfffe1ecf7),
       this.shadowColor = const Color(0xffd9e2ed),
       this.clockText = ClockText.arabic,
-      this.getCurrentTime = getSystemTime,
-      this.updateDuration = const Duration(seconds: 1)});
+//      this.getCurrentTime = getSystemTime,
+//      this.updateDuration = const Duration(seconds: 1),
+//      this.dateTime
+      this.min,
+      this.sec});
 
-  static DateTime getSystemTime() {
-    return new DateTime.now();
-  }
+//  static DateTime getSystemTime() {
+//    return new DateTime.now();
+//  }
 
   @override
   _ClockState createState() => _ClockState();
@@ -35,20 +42,19 @@ class Clock extends StatefulWidget {
 
 class _ClockState extends State<Clock> {
   Timer _timer;
-  DateTime dateTime;
 
   @override
   void initState() {
     super.initState();
-    dateTime = DateTime.now();
-    this._timer = Timer.periodic(widget.updateDuration, setTime);
+//    dateTime = DateTime.now();
+//    this._timer = Timer.periodic(widget.updateDuration, setTime);
   }
 
-  void setTime(Timer timer) {
-    setState(() {
-      dateTime = DateTime.now();
-    });
-  }
+//  void setTime(Timer timer) {
+//    setState(() {
+////      dateTime = DateTime.now();
+//    });
+//  }
 
   @override
   void dispose() {
@@ -87,7 +93,9 @@ class _ClockState extends State<Clock> {
         children: [
           ClockFace(
             clockText: widget.clockText,
-            dateTime: dateTime,
+//            dateTime: dateTime,
+            min: widget.min,
+            sec: widget.sec,
           ),
           Container(
             padding: EdgeInsets.all(25),
@@ -96,7 +104,10 @@ class _ClockState extends State<Clock> {
               painter: ClockDialPainter(clockText: widget.clockText),
             ),
           ),
-          ClockHands(dateTime: dateTime),
+          ClockHands(
+            min: widget.min,
+            sec: widget.sec,
+          ),
         ],
       ),
     );
