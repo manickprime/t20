@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:t20/button.dart';
 import 'package:t20/clock/first_screen.dart';
-import 'package:t20/resting_screen.dart';
 import 'package:t20/timer.dart';
 
 class RestPage extends StatefulWidget {
@@ -11,7 +9,6 @@ class RestPage extends StatefulWidget {
 }
 
 class _RestPageState extends State<RestPage> with TickerProviderStateMixin {
-  TabController tb;
   int hour = 0;
   int min = 0;
   int sec = 0;
@@ -28,10 +25,6 @@ class _RestPageState extends State<RestPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    tb = TabController(
-      length: 2,
-      vsync: this,
-    );
     min = 0;
     sec = 5;
     start();
@@ -95,82 +88,10 @@ class _RestPageState extends State<RestPage> with TickerProviderStateMixin {
     return Container(
       child: Column(
         children: [
-//          Expanded(
-//            flex: 6,
-//            child: Row(
-//              mainAxisAlignment: MainAxisAlignment.center,
-//              children: [
-//                Column(
-//                  mainAxisAlignment: MainAxisAlignment.center,
-//                  children: [
-//                    Padding(
-//                      padding: EdgeInsets.only(
-//                        bottom: 10,
-//                      ),
-//                      child: Text('HH'),
-//                    ),
-//                    NumberPicker.integer(
-//                        initialValue: hour,
-//                        minValue: 0,
-//                        maxValue: 23,
-//                        listViewWidth: 60,
-//                        onChanged: (val) {
-//                          setState(() {
-//                            hour = val;
-//                          });
-//                        }),
-//                  ],
-//                ),
-//                Column(
-//                  mainAxisAlignment: MainAxisAlignment.center,
-//                  children: [
-//                    Padding(
-//                      padding: EdgeInsets.only(
-//                        bottom: 10,
-//                      ),
-//                      child: Text('MM'),
-//                    ),
-//                    NumberPicker.integer(
-//                        initialValue: min,
-//                        minValue: 0,
-//                        maxValue: 23,
-//                        listViewWidth: 60,
-//                        onChanged: (val) {
-//                          setState(() {
-//                            min = val;
-//                          });
-//                        }),
-//                  ],
-//                ),
-//                Column(
-//                  mainAxisAlignment: MainAxisAlignment.center,
-//                  children: [
-//                    Padding(
-//                      padding: EdgeInsets.only(
-//                        bottom: 10,
-//                      ),
-//                      child: Text('SS'),
-//                    ),
-//                    NumberPicker.integer(
-//                        initialValue: sec,
-//                        minValue: 0,
-//                        maxValue: 23,
-//                        listViewWidth: 60,
-//                        onChanged: (val) {
-//                          setState(() {
-//                            sec = val;
-//                          });
-//                        }),
-//                  ],
-//                ),
-//              ],
-//            ),
-//          ),
           SizedBox(
             height: 20,
           ),
           Container(
-//            flex: 1,
             child: Text(
               timeToDisplay,
               style: TextStyle(
@@ -183,12 +104,10 @@ class _RestPageState extends State<RestPage> with TickerProviderStateMixin {
             height: 20,
           ),
           Container(
-//              flex: 3,
               child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               RaisedButton(
-//                onPressed: started ? start : null,
                 onPressed: times % 2 == 0
                     ? () {
                         start();
@@ -211,21 +130,6 @@ class _RestPageState extends State<RestPage> with TickerProviderStateMixin {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-//              RaisedButton(
-//                onPressed: stopped ? null : stop,
-//                color: Colors.red,
-//                padding: EdgeInsets.symmetric(
-//                  horizontal: 40,
-//                  vertical: 10,
-//                ),
-//                child: Text(
-//                  'Stop',
-//                  style: TextStyle(fontSize: 18, color: Colors.white),
-//                ),
-//                shape: RoundedRectangleBorder(
-//                  borderRadius: BorderRadius.circular(15),
-//                ),
-//              ),
             ],
           )),
         ],

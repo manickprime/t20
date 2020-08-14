@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:t20/button.dart';
 import 'package:t20/clock/first_screen.dart';
-import 'package:t20/notification.dart';
+import 'package:t20/info.dart';
 import 'package:t20/resting_screen.dart';
 
 class TimerPage extends StatefulWidget {
@@ -11,7 +10,6 @@ class TimerPage extends StatefulWidget {
 }
 
 class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
-  TabController tb;
   int hour = 0;
   int min = 0;
   int sec = 0;
@@ -25,15 +23,12 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   int passedMin = 0;
   int passedSec = 0;
   DateTime dateTime;
+  bool isSwitched = true;
 
   @override
   void initState() {
-    tb = TabController(
-      length: 2,
-      vsync: this,
-    );
     min = 0;
-    sec = 5;
+    sec = 8;
     super.initState();
   }
 
@@ -49,16 +44,25 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
           t.cancel();
           if (timeForTimer == 0) {
             debugPrint('Stopped by default');
+            started = true;
+            stopped = true;
+            t.cancel();
+            Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                    pageBuilder: (context, __, ___) => RestPage(),
+                    transitionDuration: Duration(seconds: 0)));
+          } else {
+            t.cancel();
+            started = true;
+            stopped = true;
+            Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, _, __) => TimerPage(),
+                  transitionDuration: Duration(seconds: 0),
+                ));
           }
-          started = true;
-          stopped = true;
-//          MyHomePage myHomePage = MyHomePage();
-//          myHomePage.
-          Navigator.pushReplacement(
-              context,
-              PageRouteBuilder(
-                  pageBuilder: (context, __, ___) => RestPage(),
-                  transitionDuration: Duration(seconds: 0)));
         } else if (timeForTimer < 60) {
           timeToDisplay = timeForTimer.toString();
           passedMin = 0;
@@ -96,82 +100,10 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
     return Container(
       child: Column(
         children: [
-//          Expanded(
-//            flex: 6,
-//            child: Row(
-//              mainAxisAlignment: MainAxisAlignment.center,
-//              children: [
-//                Column(
-//                  mainAxisAlignment: MainAxisAlignment.center,
-//                  children: [
-//                    Padding(
-//                      padding: EdgeInsets.only(
-//                        bottom: 10,
-//                      ),
-//                      child: Text('HH'),
-//                    ),
-//                    NumberPicker.integer(
-//                        initialValue: hour,
-//                        minValue: 0,
-//                        maxValue: 23,
-//                        listViewWidth: 60,
-//                        onChanged: (val) {
-//                          setState(() {
-//                            hour = val;
-//                          });
-//                        }),
-//                  ],
-//                ),
-//                Column(
-//                  mainAxisAlignment: MainAxisAlignment.center,
-//                  children: [
-//                    Padding(
-//                      padding: EdgeInsets.only(
-//                        bottom: 10,
-//                      ),
-//                      child: Text('MM'),
-//                    ),
-//                    NumberPicker.integer(
-//                        initialValue: min,
-//                        minValue: 0,
-//                        maxValue: 23,
-//                        listViewWidth: 60,
-//                        onChanged: (val) {
-//                          setState(() {
-//                            min = val;
-//                          });
-//                        }),
-//                  ],
-//                ),
-//                Column(
-//                  mainAxisAlignment: MainAxisAlignment.center,
-//                  children: [
-//                    Padding(
-//                      padding: EdgeInsets.only(
-//                        bottom: 10,
-//                      ),
-//                      child: Text('SS'),
-//                    ),
-//                    NumberPicker.integer(
-//                        initialValue: sec,
-//                        minValue: 0,
-//                        maxValue: 23,
-//                        listViewWidth: 60,
-//                        onChanged: (val) {
-//                          setState(() {
-//                            sec = val;
-//                          });
-//                        }),
-//                  ],
-//                ),
-//              ],
-//            ),
-//          ),
           SizedBox(
             height: 20,
           ),
           Container(
-//            flex: 1,
             child: Text(
               timeToDisplay,
               style: TextStyle(
@@ -184,12 +116,10 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
             height: 20,
           ),
           Container(
-//              flex: 3,
               child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               RaisedButton(
-//                onPressed: started ? start : null,
                 onPressed: times % 2 == 0
                     ? () {
                         start();
@@ -212,26 +142,16 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-//              RaisedButton(
-//                onPressed: stopped ? null : stop,
-//                color: Colors.red,
-//                padding: EdgeInsets.symmetric(
-//                  horizontal: 40,
-//                  vertical: 10,
-//                ),
-//                child: Text(
-//                  'Stop',
-//                  style: TextStyle(fontSize: 18, color: Colors.white),
-//                ),
-//                shape: RoundedRectangleBorder(
-//                  borderRadius: BorderRadius.circular(15),
-//                ),
-//              ),
             ],
           )),
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -242,14 +162,38 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
         title: Text('t20'),
         centerTitle: true,
         backgroundColor: Color(0xffff0764),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.info_outline),
+            onPressed: () {
+              print('im pressed');
+              Navigator.of(context).push(PageRouteBuilder(
+                opaque: false,
+                pageBuilder: (context, _, __) => InfoScreen(),
+              ));
+            },
+          ),
+        ],
       ),
       body: Column(children: [
         timer(),
         Expanded(
-          child: FirstTab(
-            minutes: passedMin,
-            seconds: passedSec,
+          child: Scaffold(
+            body: FirstTab(
+              minutes: passedMin,
+              seconds: passedSec,
+            ),
           ),
+        ),
+        Switch(
+          value: isSwitched,
+          onChanged: (value) {
+            setState(() {
+              isSwitched = value;
+            });
+          },
+//          activeTrackColor: Color(0xffff0764),
+          activeColor: Color(0xffff0764),
         ),
       ]),
     );

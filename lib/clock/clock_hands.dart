@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:t20/clock/hand_hour.dart';
 import 'package:t20/clock/hand_minute.dart';
 import 'package:t20/clock/hand_second.dart';
 
@@ -14,8 +13,6 @@ class ClockHands extends StatelessWidget {
   ClockHands({this.showHourHandleHeartShape = false, this.min, this.sec});
   @override
   Widget build(BuildContext context) {
-    print(min);
-    print(sec);
     return AspectRatio(
       aspectRatio: 1,
       child: Container(
