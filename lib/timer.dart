@@ -1,12 +1,19 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:t20/bloc_logic.dart';
 import 'package:t20/clock/first_screen.dart';
 import 'package:t20/info.dart';
+import 'package:t20/notification.dart';
 import 'package:t20/resting_screen.dart';
 
 class TimerPage extends StatefulWidget {
+  final bool isDarkThemeEnabled;
+  final ThemeBloc bloc;
+
   @override
   _TimerPageState createState() => _TimerPageState();
+
+  TimerPage({this.isDarkThemeEnabled, this.bloc});
 }
 
 class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
@@ -27,8 +34,15 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    min = 0;
-    sec = 8;
+    min = 20;
+    sec = 0;
+    started = true;
+    stopped = true;
+    timeForTimer = 0;
+    buttonText = 'Start';
+    checkTimer = true;
+    passedMin = 0;
+    passedSec = 0;
     super.initState();
   }
 
@@ -42,11 +56,20 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
       setState(() {
         if (timeForTimer < 1 || checkTimer == false) {
           t.cancel();
+          timeToDisplay = '20:0';
+          min = 20;
+          sec = 0;
+
           if (timeForTimer == 0) {
             debugPrint('Stopped by default');
             started = true;
             stopped = true;
             t.cancel();
+            MyHomePage myHomePage = MyHomePage(context: context);
+            myHomePage.init();
+            myHomePage.showNotificationsWithDefaultSound(
+                bigHeading: 'Time\'s Up',
+                smallDesc: 'Look away to relax your eyes');
             Navigator.pushReplacement(
                 context,
                 PageRouteBuilder(
@@ -56,6 +79,8 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
             t.cancel();
             started = true;
             stopped = true;
+
+//            print('hey');
             Navigator.pushReplacement(
                 context,
                 PageRouteBuilder(
@@ -98,6 +123,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
 
   Widget timer() {
     return Container(
+      color: Theme.of(context).accentColor,
       child: Column(
         children: [
           SizedBox(
@@ -136,7 +162,10 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
                 ),
                 child: Text(
                   timeToDisplay == '20:0' ? 'Start' : 'Restart',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                  style: TextStyle(
+                    fontSize: 18,
+//                      color: Colors.white
+                  ),
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -166,10 +195,35 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
           IconButton(
             icon: Icon(Icons.info_outline),
             onPressed: () {
-              print('im pressed');
+//              print('im pressed');
               Navigator.of(context).push(PageRouteBuilder(
                 opaque: false,
                 pageBuilder: (context, _, __) => InfoScreen(),
+//                pageBuilder: (context, _, __) => Container(
+////                  child: InfoScreen(),
+//                  child: SafeArea(
+//                    child: Stack(
+//                      children: [
+//                        Opacity(
+//                          opacity: 0.5,
+//                        ),
+//                        Column(
+//                          children: [
+//                            Text(
+//                              't20 app',
+//                              style: TextStyle(
+//                                fontSize: 20,
+//                                fontFamily: 'Roboto',
+//                              ),
+//                            ),
+//                            Text('will help you reduce eye strain'),
+//                          ],
+//                        ),
+//                      ],
+//                    ),
+//                  ),
+//                  color: Color(0xffffff).withOpacity(0.5),
+//                ),
               ));
             },
           ),
@@ -185,17 +239,21 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
             ),
           ),
         ),
-        Switch(
-          value: isSwitched,
-          onChanged: (value) {
-            setState(() {
-              isSwitched = value;
-            });
-          },
-//          activeTrackColor: Color(0xffff0764),
-          activeColor: Color(0xffff0764),
-        ),
+//        Switch(
+//          value: widget.isDarkThemeEnabled,
+////          onChanged: (value) {
+////            setState(() {
+////              isSwitched = value;
+////            });
+//
+////          },
+//          onChanged: widget.bloc.changeTheTheme,
+////          activeTrackColor: Color(0xffff0764),
+//          activeColor: Color(0xffff0764),
+//        ),
       ]),
     );
   }
 }
+
+final bloc = ThemeBloc();

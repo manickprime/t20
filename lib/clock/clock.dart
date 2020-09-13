@@ -1,4 +1,4 @@
-import 'dart:async';
+//import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +41,7 @@ class Clock extends StatefulWidget {
 }
 
 class _ClockState extends State<Clock> {
-  Timer _timer;
+//  Timer _timer;
 
   @override
   void initState() {
@@ -83,10 +83,11 @@ class _ClockState extends State<Clock> {
             color: widget.shadowColor,
           ),
           BoxShadow(
-              offset: Offset(0, 5),
-              color: widget.circleColor,
-              blurRadius: 10,
-              spreadRadius: -8)
+            offset: Offset(0, 5),
+            color: widget.circleColor,
+            blurRadius: 10,
+//              spreadRadius: -8
+          )
         ],
       ),
       child: Stack(

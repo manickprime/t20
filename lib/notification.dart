@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
+class MyHomePage {
+  BuildContext context;
 
-class _MyHomePageState extends State<MyHomePage> {
+  MyHomePage({this.context});
+
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
-  @override
-  void initState() {
-    super.initState();
-
+  void init() {
     var initializationSettingsAndroid =
         AndroidInitializationSettings('app_icon');
     var initializationSettingsIOS = IOSInitializationSettings();
@@ -35,42 +31,43 @@ class _MyHomePageState extends State<MyHomePage> {
             ));
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Plugin Example App'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
+//  @override
+//  Widget build(BuildContext context) {
+//    return Scaffold(
+//      appBar: AppBar(
+//        title: Text('Plugin Example App'),
+//      ),
+//      body: Center(
+//        child: Column(
+//          mainAxisAlignment: MainAxisAlignment.center,
+//          mainAxisSize: MainAxisSize.max,
+//          children: [
+////            RaisedButton(
+//////              onPressed: _showNotificationWithSound,
+//////              child: Text('Show Notification with sound'),
+//////            ),
+//////            SizedBox(
+//////              height: 30,
+//////            ),
 //            RaisedButton(
-////              onPressed: _showNotificationWithSound,
-////              child: Text('Show Notification with sound'),
-////            ),
-////            SizedBox(
-////              height: 30,
-////            ),
-            RaisedButton(
-              onPressed: showNotificationWithoutSound,
-              child: Text('Show Notification without sound'),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            RaisedButton(
-              onPressed: showNotificationsWithDefaultSound,
-              child: Text('Show Notification with default sound'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+//              onPressed: showNotificationWithoutSound,
+//              child: Text('Show Notification without sound'),
+//            ),
+//            SizedBox(
+//              height: 30,
+//            ),
+//            RaisedButton(
+//              onPressed: showNotificationsWithDefaultSound,
+//              child: Text('Show Notification with default sound'),
+//            ),
+//          ],
+//        ),
+//      ),
+//    );
+//  }
 
-  Future showNotificationsWithDefaultSound() async {
+  Future showNotificationsWithDefaultSound(
+      {String bigHeading, String smallDesc}) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'notification_channel_id',
         'Channel Name',
@@ -81,8 +78,8 @@ class _MyHomePageState extends State<MyHomePage> {
     var iOSPlatformChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(0, 'Old Post',
-        'How to Show Notification in Flutter', platformChannelSpecifics,
+    await flutterLocalNotificationsPlugin.show(
+        0, bigHeading, smallDesc, platformChannelSpecifics,
         payload: 'Default_Sound');
   }
 

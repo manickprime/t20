@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:t20/bloc_logic.dart';
 import 'package:t20/clock/first_screen.dart';
+//import 'package:t20/main.dart';
 import 'package:t20/timer.dart';
 
 class RestPage extends StatefulWidget {
@@ -26,7 +28,7 @@ class _RestPageState extends State<RestPage> with TickerProviderStateMixin {
   @override
   void initState() {
     min = 0;
-    sec = 5;
+    sec = 20;
     start();
     super.initState();
   }
@@ -51,6 +53,7 @@ class _RestPageState extends State<RestPage> with TickerProviderStateMixin {
               PageRouteBuilder(
                   pageBuilder: (context, __, ___) => TimerPage(),
                   transitionDuration: Duration(seconds: 0)));
+//          Navigator.pop(context);
         } else if (timeForTimer < 60) {
           timeToDisplay = timeForTimer.toString();
           passedMin = 0;
@@ -158,3 +161,5 @@ class _RestPageState extends State<RestPage> with TickerProviderStateMixin {
     );
   }
 }
+
+final bloc = ThemeBloc();
