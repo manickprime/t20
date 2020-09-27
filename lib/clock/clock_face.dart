@@ -8,7 +8,7 @@ class ClockFace extends StatelessWidget {
   final int min;
   final int sec;
 //  ClockFace({this.clockText = ClockText.arabic, this.dateTime});
-  ClockFace({this.min,this.sec,this.clockText = ClockText.arabic});
+  ClockFace({this.min, this.sec, this.clockText = ClockText.arabic});
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -26,7 +26,8 @@ class ClockFace extends StatelessWidget {
                     offset: Offset(8, 0),
                     blurRadius: 13,
                     spreadRadius: 1,
-                    color: Color(0xffd3e0f0),
+                    // color: Color(0xffd3e0f0),
+                    color: Color(0xfff4f9fd),
                   )
                 ]),
           ),
