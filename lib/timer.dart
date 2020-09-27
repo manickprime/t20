@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:t20/bloc_logic.dart';
 import 'package:t20/clock/first_screen.dart';
 import 'package:t20/info.dart';
@@ -23,7 +24,8 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   bool started = true;
   bool stopped = true;
   int timeForTimer = 0;
-  String timeToDisplay = '20:0';
+  static int initialValue = 20;
+  String timeToDisplay = '$initialValue:00';
   String buttonText = 'Start';
   bool checkTimer = true;
   int times = 0;
@@ -34,8 +36,8 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    min = 20;
-    sec = 0;
+    min = 19;
+    sec = 59;
     started = true;
     stopped = true;
     timeForTimer = 0;
@@ -47,16 +49,18 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
   }
 
   void start() {
+    // debugPrint('im starting');
     setState(() {
       started = false;
       stopped = false;
     });
     timeForTimer = ((hour * 60 * 60) + (min * 60) + sec);
+    // timeForTimer = 1199;
     Timer.periodic(Duration(seconds: 1), (Timer t) {
       setState(() {
         if (timeForTimer < 1 || checkTimer == false) {
           t.cancel();
-          timeToDisplay = '20:0';
+          timeToDisplay = '$initialValue:00';
           min = 20;
           sec = 0;
 
@@ -148,6 +152,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
               RaisedButton(
                 onPressed: times % 2 == 0
                     ? () {
+                        // debugPrint('im calling');
                         start();
                         times++;
                       }
@@ -161,7 +166,7 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
                   vertical: 10,
                 ),
                 child: Text(
-                  timeToDisplay == '20:0' ? 'Start' : 'Restart',
+                  timeToDisplay == '$initialValue:00' ? 'Start' : 'Restart',
                   style: TextStyle(
                     fontSize: 18,
 //                      color: Colors.white
@@ -239,6 +244,24 @@ class _TimerPageState extends State<TimerPage> with TickerProviderStateMixin {
             ),
           ),
         ),
+        // Text('Scroll to change time'),
+        Text('Swipe to change time'),
+        NumberPicker.horizontal(
+
+//            listViewWidth: 60,
+            initialValue: initialValue,
+            // infiniteLoop: true,
+//             scrollDirection: Axis.horizontal,
+            highlightSelectedValue: true,
+            minValue: 18,
+            maxValue: 60,
+            onChanged: (val) {
+              setState(() {
+                min = val - 1;
+                initialValue = val;
+                timeToDisplay = '$initialValue:00';
+              });
+            })
 //        Switch(
 //          value: widget.isDarkThemeEnabled,
 ////          onChanged: (value) {

@@ -8,7 +8,9 @@ class MinuteHandPainter extends CustomPainter {
   int seconds;
 
   MinuteHandPainter({this.minutes, this.seconds}) : minuteHandPaint = Paint() {
-    minuteHandPaint.color = Color(0xffc5cbdd);
+    // minuteHandPaint.color = Color(0xffc5cbdd);
+    minuteHandPaint.color = Color(0xfff4f9fd);
+
     minuteHandPaint.style = PaintingStyle.stroke;
     minuteHandPaint.strokeCap = StrokeCap.round;
     minuteHandPaint.strokeWidth = 5;
